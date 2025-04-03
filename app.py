@@ -58,7 +58,9 @@ with gr.Blocks() as demo:
                 taki_btn = gr.Button("立希", variant="secondary", scale=0, min_width=82)
         with gr.Column():
             gr.Markdown("""
-                        输入样例: \<kasumi\> 哇，有咲今天的便当，看起来超级好吃的！
+                        #### 输入样例: 
+                            \<kasumi\> 哇，有咲今天的便当，看起来超级好吃的！\n
+                            \<arisa\> 话说…… 你每天看我的便当，都要说看起来很好吃
                         """)
 
     with gr.Row():
