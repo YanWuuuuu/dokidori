@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "https://huggingface.co/spaces/Takaharadesu/DokiDori"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://huggingface.co/spaces/Takaharadesu/DokiDori/$1"
+    }
+  ]
+}
