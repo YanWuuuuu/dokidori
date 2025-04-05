@@ -71,11 +71,11 @@ with gr.Blocks() as demo:
         translate_button = gr.Button("翻译")
 
     with gr.Row():
-        max_new_tokens_slider = gr.Slider(minimum=32, maximum=256, step=1, value=64, label="max_new_tokens")
+        max_new_tokens_slider = gr.Slider(minimum=32, maximum=96, step=1, value=64, label="max_new_tokens")
         batch_size = gr.Slider(minimum=1, maximum=32, step=1, value=8, label="batch_size")
 
     with gr.Row():    
-        temperature_slider = gr.Slider(minimum=0.5, maximum=1.5, step=0.05, value=0.75, label="temperature")
+        temperature_slider = gr.Slider(minimum=0.3, maximum=1.5, step=0.05, value=0.75, label="temperature")
         top_p_slider = gr.Slider(minimum=0.5, maximum=1.0, step=0.05, value=0.9, label="top_p")
         repetition_penalty = gr.Slider(minimum=1.0, maximum=2.0, step=0.05, value=1.2, label="repetition_penalty")   
   
