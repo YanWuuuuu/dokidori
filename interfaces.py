@@ -2,14 +2,15 @@
 import torch
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 
-repo_id = "Takaharadesu/dokidori"
+repo_id = "Takaharadesu/dokidori-neo"
+local_model_path = "./models"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-model = MBartForConditionalGeneration.from_pretrained(repo_id).to(device)
-tokenizer = MBart50TokenizerFast.from_pretrained(repo_id)
+model = MBartForConditionalGeneration.from_pretrained(repo_id, cache_dir=local_model_path, local_files_only=True).to(device)
+tokenizer = MBart50TokenizerFast.from_pretrained(repo_id, cache_dir=local_model_path, local_files_only=True)  # local_files_only=True
 
-def translate_multiline(text, max_new_tokens, batch_size, repetition_penalty, temperature, top_p):
+def translate_multiline(text, max_new_tokens, batch_size, repetition_penalty, num_beams, temperature, top_p):
     lines = text.split("\n")
     outputs_list = ["" for _ in lines]
     non_empty_lines = [] 
@@ -28,6 +29,7 @@ def translate_multiline(text, max_new_tokens, batch_size, repetition_penalty, te
             **inputs,
             max_new_tokens=max_new_tokens,
             repetition_penalty=repetition_penalty,
+            num_beams = num_beams,          # tset
             do_sample=True,
             temperature=temperature,
             top_p=top_p,
