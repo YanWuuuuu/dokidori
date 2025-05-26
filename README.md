@@ -18,6 +18,7 @@ pip install -r requirements.txt
 python app.py
 ```
 点击控制台返回的链接进入WebUI
+注意事项：若点击按钮出现Connection errored out错误，建议运行```pip install --upgrade gradio```再重新运行```python app.py```
 
 ## 输入样例
 ```
