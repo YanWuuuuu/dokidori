@@ -1,38 +1,27 @@
 
 import gradio as gr
-from interfaces import translate_multiline
+import interfaces
+import torch
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+interfaces.device = device
+
 
 CONFIG_MATRIX = [
-    [
-        ["kasumi", "香澄"],["tae", "多惠"],["rimi", "里美"],["saaya", "沙绫"],["arisa", "有咲"],
-    ],
-    [
-        ["ran", "兰"],["moka", "摩卡"],["himari", "绯玛丽"],["tomo", "巴"],["tsugumi", "鸫"],
-    ],
-    [
-        ["kokoro", "心"],["kaoru", "薰"],["hagumi", "育美"],["kanon", "花音"],["misaki", "美咲"],
-    ],
-    [
-        ["aya", "彩"],["hina", "日菜"],["chisato", "千圣"],["maya", "麻弥"],["eve", "伊芙"],
-    ],
-    [
-        ["yukina", "友希那"],["sayo", "纱夜"],["lisa", "莉莎"],["ako", "亚子"],["rinko", "燐子"],
-    ],
-    [
-        ["mashiro", "真白"],["toko", "透子"],["nanami", "七深"],["tsukushi", "筑紫"],["rui", "瑠唯"],
-    ],
-    [
-        ["layer", "瑞依"],["lock", "六花"],["masking", "益木"],["pareo", "PAREO"],["chuchu", "CHU²"],
-    ],
-    [
-        ["tomori", "灯"],["anon", "爱音"],["rana", "乐奈"],["soyo", "素世"],["taki", "立希"],
-    ],
+    [["kasumi", "香澄"],["tae", "多惠"],["rimi", "里美"],["saaya", "沙绫"],["arisa", "有咲"]],
+    [["ran", "兰"],["moka", "摩卡"],["himari", "绯玛丽"],["tomo", "巴"],["tsugumi", "鸫"]],
+    [["kokoro", "心"],["kaoru", "薰"],["hagumi", "育美"],["kanon", "花音"],["misaki", "美咲"]],
+    [["aya", "彩"],["hina", "日菜"],["chisato", "千圣"],["maya", "麻弥"],["eve", "伊芙"],],
+    [["yukina", "友希那"],["sayo", "纱夜"],["lisa", "莉莎"],["ako", "亚子"],["rinko", "燐子"]],
+    [["mashiro", "真白"],["toko", "透子"],["nanami", "七深"],["tsukushi", "筑紫"],["rui", "瑠唯"]],
+    [["layer", "瑞依"],["lock", "六花"],["masking", "益木"],["pareo", "PAREO"],["chuchu", "CHU²"]],
+    [["tomori", "灯"],["anon", "爱音"],["rana", "乐奈"],["soyo", "素世"],["taki", "立希"]],
 ]
 
-def btn_fn(character_name_list = list):
+def btn_fn(character_name_list = list, variant = "secondary", scale = 0, min_width = 82):
     band = []
     for character_name in character_name_list:
-        band.append(gr.Button(character_name, variant="secondary", scale=0, min_width=82))
+        band.append(gr.Button(character_name, variant = variant, scale = scale, min_width = min_width))
     return band
 
 def click_fn(character_btn, character_name = str):
@@ -78,7 +67,7 @@ with gr.Blocks() as demo:
     with gr.Row():
         input_text = gr.Textbox(label="输入中文文本", placeholder="输入需要翻译的文本", lines=16)
         output_text = gr.Textbox(label="翻译结果", lines=16)
-    
+
     with gr.Row():
         translate_button = gr.Button("翻译")
 
@@ -95,6 +84,6 @@ with gr.Blocks() as demo:
         for numo,character in enumerate(band):
             click_fn(character_btn=character, character_name=CONFIG_MATRIX[band_numo][numo][0])
     
-    translate_button.click(fn=translate_multiline, inputs=[input_text, max_new_tokens_slider, batch_size, repetition_penalty, temperature_slider, top_p_slider], outputs=output_text)
+    translate_button.click(fn=interfaces.translate_multiline, inputs=[input_text, max_new_tokens_slider, batch_size, repetition_penalty, temperature_slider, top_p_slider], outputs=output_text)
 
 demo.launch(share=True)
